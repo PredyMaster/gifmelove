@@ -1,45 +1,36 @@
-import { useState, useEffect } from 'react';
-import style from './assets/css/pruebas.module.css';
-import getGifs from './services/getGifs';
+import React, {useState} from 'react';
+import Header from './components/Header';
+import ListOfGifs from './components/ListOfGifs';
+import { Link, Route } from 'wouter';
+import StaticContext from './context/StaticContext';
 
+//https://www.youtube.com/watch?v=QBLbXgeXMU8 (48:00)
 
 function App() {
-  const [gifs, setGif] = useState([]); 
-  const [keyword, setKeyword] = useState(['love']);
-
-  //https://www.youtube.com/watch?v=QBLbXgeXMU8 (48:00)
-  
-  useEffect( () => {
-    getGifs({keyword : keyword}).then(gifs => setGif(gifs));
-  }, [])
+  const [keyword, setKeyword] = useState([]);
    
   return (
-    <div>
 
-      <header className={style.header}>
-        <h1 className={style.title}>Gif me <span className={style.heart}>❤</span></h1>
-        <input type="text" className={style.search} onChange={event => setKeyword(event.target.value)} placeholder='¿What do you want search?' />
-      </header>
-      
-      <section className='bodyContainer'>
-        {
-          gifs.map(singleGif => {
+    <StaticContext.Provider value="yeah">    
+      <div>
+        <Link to='/search/rick'>Ver rick</Link>
+        
+        <Header keyword={keyword} setKeyword={setKeyword}  />
+        
+        <section className="bodyContainer">
+          {/* {
+            keyword ?
+            <Route path="/search/:keyword" component={ListOfGifs} /> 
+            : <ListOfGifs keyword={keyword} />
+          }  */}    
 
-            return(
-              <div className={style.gifContainer} key={singleGif.title}>
-                <img className={style.gifImage} src={singleGif.url} />
-                <p className={style.infoGif}>{singleGif.title}</p>
-              </div>
-            )
-            
-            
-          })
-        }
-        
-      </section>
-      
-        
-    </div>
+          <Route path="/" component={ListOfGifs} /> 
+          <Route path="/search/:keyword" component={ListOfGifs} /> 
+                        
+        </section>
+                
+      </div>
+    </StaticContext.Provider>
   );
 
 }
