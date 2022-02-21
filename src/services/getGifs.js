@@ -1,10 +1,13 @@
 const apiKey = 'dIJrma20pSU6ymMwWnDbiaT7NFHeAGVa';
 
 
-export default function getGifs({keyword = 'love'} = {}) {
-    const limit = 20;
+export default function getGifs({limit = 20, keyword = 'love', page = 0} = {}) {
 
-    const apiURL = `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=${keyword}&limit=${limit}&offset=0&rating=G&lang=en`;
+    let offsetCalc = page*limit;
+    //console.log({offsetCalc});
+    console.log("getGifs");
+
+    const apiURL = `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=${keyword}&limit=${limit}&offset=${offsetCalc}&rating=G&lang=en`;
 
 
     return fetch(apiURL)
